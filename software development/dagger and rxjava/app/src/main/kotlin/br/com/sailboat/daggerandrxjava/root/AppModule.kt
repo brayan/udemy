@@ -1,4 +1,4 @@
-package br.com.sailboat.daggerandrxjava
+package br.com.sailboat.daggerandrxjava.root
 
 import android.app.Application
 import android.content.Context
