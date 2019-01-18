@@ -1,0 +1,20 @@
+15/06/2018
+
+Default -> 3D View Port Cube, Camara and Lamp
+
+Hide the tools: T
+Hide the other menus: Shift + Space
+
+Navigation: Click with the mouse wheel and drag
+
+Fix camera: 1, 3, 7 
+
+Select object: Right click
+
+Move object: G
+
+Scale object: S
+
+Rotate: R
+
+Alt + G + S + R: Clear movement, scale and rotation

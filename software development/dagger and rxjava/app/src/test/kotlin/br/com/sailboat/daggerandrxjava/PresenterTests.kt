@@ -35,10 +35,62 @@ class PresenterTests {
     }
 
     @Test
-    fun noInteractionWirhViewTest() {
+    fun loadTheUserFromRepositoryWhenValidUserIsPresent() {
+        `when`(mockLoginModel.getUser()).thenReturn(user)
+
         presenter.getCurrentUser()
 
-        verifyZeroInteractions(mockView)
+        verify(mockLoginModel, times(1)).getUser()
+
+        verify(mockView, times(1)).setFirstName("Fox")
+        verify(mockView, times(1)).setLastName("Mulder")
+        verify(mockView, never()).showUserNotAvailable()
+    }
+
+
+    @Test
+    fun shouldShowErrorMessageWhenUserIsNull() {
+        `when`(mockLoginModel.getUser()).thenReturn(null)
+
+        presenter.getCurrentUser()
+
+        verify(mockLoginModel, times(1)).getUser()
+
+        verify(mockView, never()).setFirstName("Fox")
+        verify(mockView, never()).setLastName("Mulder")
+        verify(mockView, times(1)).showUserNotAvailable()
+    }
+
+    @Test
+    fun shouldCreateErrorMessageIfFieldsAreEmpty() {
+        `when`(mockView.getFirstName()).thenReturn("")
+
+        presenter.loginButtonClicked()
+
+        `when`(mockView.getFirstName()).thenReturn("Dana")
+        `when`(mockView.getLastName()).thenReturn("")
+
+        presenter.loginButtonClicked()
+
+        verify(mockView, times(2)).getFirstName()
+        verify(mockView, times(1)).getLastName()
+        verify(mockView, times(2)).showInputError()
+
+
+    }
+
+    @Test
+    fun shouldBeAbleToSaveAValidUser() {
+        `when`(mockView.getFirstName()).thenReturn("Dana")
+        `when`(mockView.getLastName()).thenReturn("Scully")
+
+        presenter.loginButtonClicked()
+
+        verify(mockView, times(2)).getFirstName()
+        verify(mockView, times(2)).getLastName()
+
+        verify(mockLoginModel, times(1)).createUser("Dana", "Scully")
+        verify(mockView, times(1)).showUserSavedMessage()
     }
 
 }
